@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>{% block title %}AWS AMI Management Console{% endblock %}</title>
+
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'question/css/bootstrap.css' %}"/>
+    <link rel="stylesheet" href="{% static 'question/css/custom.css' %}"/>
+    {% block additional_css %}{% endblock %}
+
+    <script type="text/javascript" src="{% static 'question/js/jquery-1.10.2.min.js' %}"></script>
+    {% block additional_js %}{% endblock %}
+</head>
+
+<body>
+<!-- Fixed navbar -->
+<div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="#" class="navbar-brand">AWS Exam</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="">
+                    <a href="#q1">Q1 ~ Q10</a>
+                </li>
+                <li class="">
+                    <a href="#q11">Q11 ~ Q20</a>
+                </li>
+                <li class="">
+                    <a href="#q21">Q21 ~ Q30</a>
+                </li>
+                <li class="">
+                    <a href="#q31">Q31 ~ Q40</a>
+                </li>
+                <li class="">
+                    <a href="#q41">Q41 ~ Q50</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</div>
+<!-- Fixed navbar end -->
+
+<!-- Content -->
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+<!-- Contend end -->
+
+<div class="footer">
+    <div class="container">
+        <div class="button_row">
+            <button id="check_ans" type="button" class="btn btn-primary">Check Answer</button>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="{% static 'question/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

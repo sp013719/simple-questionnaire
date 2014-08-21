@@ -1,0 +1,35 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    padding-top: 70px;
+    /* Margin bottom by footer height */
+    margin-bottom: 50px;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 50px;
+    background-color: #f5f5f5;
+}
+
+ul.choices {
+    list-style-type: none;
+}
+
+div.button_row {
+    padding-top: 8px;
+}
+
+.hide {
+    display: none;
+}
+
+h3.question_group {
+    padding-bottom: 20px;
+}

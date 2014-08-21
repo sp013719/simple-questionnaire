@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}AWS Exam{% endblock %}
+
+{% block additional_css %}
+{% load staticfiles %}
+{% endblock %}
+
+{% block additional_js %}
+<script type="text/javascript">
+    $(function() {
+        init_question();
+
+        $('#check_ans').click(function() {
+            var total_question = $('div.question_block').size();
+            var failed_count = 0;
+
+            $('div.question_block form').each(function(){
+                var selected = [];
+
+                $(this).find('input:checked').each(function() {
+                    selected.push($(this).val());
+                });
+
+                if (selected.join() !== $(this).find('.answer > span').html()) {
+                    failed_count++;
+                    $(this).find('.answer').removeClass('alert-success').addClass('alert-danger');
+                } else {
+                    $(this).find('.answer').removeClass('alert-danger').addClass('alert-success');
+                }
+
+                $(this).find('.answer').removeClass('hide');
+            });
+
+            alert('Your result\n\nCorrect: ' + (total_question - failed_count) + '\nFailed:' + failed_count);
+        });
+    });
+
+    var init_question = function() {
+        var request = $.ajax({
+            url: "{% url 'question:fetch' %}",
+            type: "GET",
+            cache: false,
+            dataType: "json"
+        });
+
+        request.done(function(data) {
+            $.each(data, function(index, node){
+                if (index % 10 === 0) {
+                    $('<div id="q' + (index + 1) + '"><h3 class="question_group"><span class="label label-success">Question ' + (index + 1)
+                        + ' ~ ' + (index + 10) + '</span></h3></div>').appendTo('div#content');
+                }
+
+                var multi_select = (node.ans.length > 1) ? true : false;
+                var $template = $('div#question_template').clone();
+                $template.find('h4.question').html((index + 1) + '.&nbsp;' + node.question);
+
+                $.each(node.choices, function(key, value) {
+                    var input_type = multi_select ? 'checkbox' : 'radio';
+                    $template.find('ul.choices').append('<li><input name="ans" type="'
+                        + input_type + '" value="' + value.option + '" />&nbsp;'+ value.option + '.&nbsp;' + value.desc + '</li>');
+                });
+                $template.find('div.answer > span').html(node.ans.join());
+                $template.find('div.answer > div.note').html(node.note);
+                $template.find('form').attr('name', 'answer_form' + (index + 1));
+
+                $template.attr('id', 'question_' + index).removeClass('hide').addClass('question_block').appendTo('div#content');
+            });
+        });
+
+        request.fail(function(jqXHR, textStatus) {
+            alert("Request failed: " + textStatus);
+        });
+
+        request.always(function() {
+        });
+    };
+</script>
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+    </div>
+    <div id="question_template" class="hide">
+        <form name="answer_form">
+            <h4 class="question"></h4>
+            <ul class="choices"></ul>
+            <div class="answer alert alert-success hide">
+                <span></span>
+                <div class="note"></div>
+            </div>
+            <hr />
+        </form>
+    </div>
+{% endblock %}
